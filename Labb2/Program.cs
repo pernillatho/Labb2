@@ -53,6 +53,7 @@ products.Add(new Product() { Id = 5, Name = "Pistachios", Price = 29.5 });
 bool runProgram = true;
 bool continuee = true;
 var inputMenuTwo = string.Empty;
+var inputMenuOne = string.Empty;
 
 while (runProgram)
 {
@@ -61,11 +62,21 @@ while (runProgram)
     Console.WriteLine("[1] - Sign in");
     Console.WriteLine("[2] - Register new customer");
     Console.WriteLine("[3] - Exit program");
-    var inputMenuOne = int.Parse(Console.ReadLine());
+    try
+    {
+        inputMenuOne = Console.ReadLine();
+        //inputMenuOne = int.Parse(Console.ReadLine());
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+        throw;
+    }
+    
 
     switch (inputMenuOne)
     {
-        case 1:
+        case "1":
             {
                 AskForUserNameAndPassword();
 
@@ -98,7 +109,7 @@ while (runProgram)
                                 continuee = false;
                                 break;
                             default:
-                                Console.WriteLine("You can only choose a number between 1-3. Try again!");
+                                Console.WriteLine("You can only choose a number between 1-4. Try again!");
                                 break;
                         }
                     }
@@ -111,11 +122,11 @@ while (runProgram)
 
                 break;
             }
-        case 2:
+        case "2":
             AddNewCustomer();
             break;
-        case 3:
-            if (inputMenuOne == 3)
+        case "3":
+            if (inputMenuOne == "3")
                 runProgram = false;
             break;
     }
@@ -132,24 +143,22 @@ while (runProgram)
 
         if (loggedInCustomer != null)
         {
-
-            Console.Write("Password: ");
-            string password = Console.ReadLine();
-            if (!loggedInCustomer.VerifyPassword(password))
+            bool wrongPass = true;
+            while (wrongPass)
             {
-                loggedInCustomer = null;
-                Console.WriteLine("Wrong password");
-                Console.ReadKey();
-            }
-
-            else if (loggedInCustomer.VerifyPassword(password))
-            {
-                Console.WriteLine("RÄTT LÖSENORD");
-                Console.ReadKey();
+                Console.Write("Password: ");
+                string password = Console.ReadLine();
+                if (!loggedInCustomer.VerifyPassword(password))
+                {
+                    Console.WriteLine("Wrong password");
+                }
+                else
+                {
+                    wrongPass = false;
+                }
             }
 
         }
-
 
     }
 
