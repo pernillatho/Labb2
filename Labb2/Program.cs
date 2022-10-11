@@ -84,53 +84,53 @@ while (runProgram)
             break;
         }
     }
-
-    void AskForUserNameAndPassword()
-    {
-        Console.Clear();
-        Console.WriteLine("---Sign in---");
-        Console.Write("Enter name: ");
-        string name = Console.ReadLine();
-        loggedInCustomer = _customers.FirstOrDefault(p => p.Name.Equals(name));
-
-        if (loggedInCustomer != null)
-        {
-            var wrongPassword = true;
-            while (wrongPassword)
-            {
-                Console.Write("Enter password: ");
-                string password = Console.ReadLine();
-                if (!loggedInCustomer.VerifyPassword(password))
-                {
-                    Console.WriteLine("Wrong password, try again!");
-                    Thread.Sleep(1000);
-                }
-                else
-                {
-                    wrongPassword = false;
-                }
-            }
-
-        }
-        else if (!name.Equals(String.Empty))
-        {
-            Console.Clear();
-            Console.WriteLine("The customer name does not exist!\n");
-            Console.WriteLine("[1] - Register new Customer ");
-            Console.WriteLine("[2] - Back to Main menu ");
-            var inputName = Console.ReadLine();
-
-            if (inputName != "1") return;
-            AddNewCustomer();
-        }
-        else
-        {
-            Console.WriteLine("Try again, your name have to contain letters or numbers.");
-            Thread.Sleep(2000);
-        }
-    }
     continuee = true;
     Console.Clear();
+}
+
+void AskForUserNameAndPassword()
+{
+    Console.Clear();
+    Console.WriteLine("---Sign in---");
+    Console.Write("Enter name: ");
+    string name = Console.ReadLine();
+    loggedInCustomer = _customers.FirstOrDefault(p => p.Name.Equals(name));
+
+    if (loggedInCustomer != null)
+    {
+        var wrongPassword = true;
+        while (wrongPassword)
+        {
+            Console.Write("Enter password: ");
+            string password = Console.ReadLine();
+            if (!loggedInCustomer.VerifyPassword(password))
+            {
+                Console.WriteLine("Wrong password, try again!");
+                Thread.Sleep(1000);
+            }
+            else
+            {
+                wrongPassword = false;
+            }
+        }
+
+    }
+    else if (!name.Equals(String.Empty))
+    {
+        Console.Clear();
+        Console.WriteLine("The customer name does not exist!\n");
+        Console.WriteLine("[1] - Register new Customer ");
+        Console.WriteLine("[2] - Back to Main menu ");
+        var inputName = Console.ReadLine();
+
+        if (inputName != "1") return;
+        AddNewCustomer();
+    }
+    else
+    {
+        Console.WriteLine("Try again, your name have to contain letters or numbers.");
+        Thread.Sleep(2000);
+    }
 }
 
 void AddNewCustomer()
@@ -177,18 +177,17 @@ void AddItems()
 
         Console.Write("Choose which item: ");
         var inputItem = int.Parse(Console.ReadLine());
+       
         Console.Write("Choose how many: ");
-
         var inputHowMany = int.Parse(Console.ReadLine());
         Thread.Sleep(1000);
+
         foreach (var item in products.Where(item => item.Id == inputItem))
         {
-
             for (int i = 0; i < inputHowMany; i++)
             {
                 loggedInCustomer.Cart.Add(item);
             }
-
             Console.WriteLine();
         }
     }
@@ -238,7 +237,6 @@ void Checkout ()
     Console.WriteLine("[1] - Pay\n[2] - Menu");
 
     var inputCheckOut = Console.ReadLine();
-
     if (inputCheckOut == "1")
     {
         Console.Clear();
