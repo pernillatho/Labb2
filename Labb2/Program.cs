@@ -182,16 +182,12 @@ void AddItems()
             Thread.Sleep(1000);
             AddItems();
         }
-        else
-        {
-            wantedItem = false;
-
-        }
-
+      
+        wantedItem = false;
         int inputHowMany = 0;
+        Console.Write("Choose how many: ");
         while (!wantedItem)
         {
-            Console.Write("Choose how many: ");
             wantedItem = int.TryParse(Console.ReadLine(), out inputHowMany);
             if (!wantedItem)
                 Console.WriteLine("Enter an Integer!");
@@ -208,29 +204,6 @@ void AddItems()
             Console.WriteLine();
         }
     }
-
-
-    //Console.WriteLine("---Add items---");
-    //products.ForEach(item => Console.WriteLine(item));
-    //Console.WriteLine();
-
-    //Console.Write("Choose which item: ");
-    //var inputItem = int.Parse(Console.ReadLine());
-    //Console.Write("Choose how many: ");
-
-    //var inputHowMany = int.Parse(Console.ReadLine());
-
-    //foreach (var item in products.Where(item => item.Id == inputItem))
-    //{
-
-    //    for (int i = 0; i < inputHowMany; i++)
-    //    {
-    //        loggedInCustomer.Cart.Add(item);
-    //    }
-
-    //    Console.WriteLine();
-    //}
-
 
 }
 
