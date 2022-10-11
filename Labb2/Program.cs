@@ -59,7 +59,7 @@ while (runProgram)
                                 continuee = false;
                                 break;
                             default:
-                                Console.WriteLine("You can only choose a number between 1-4. Try again");
+                                Console.WriteLine("You can only choose a number between 1-4. Try again!");
                                 Thread.Sleep(1500);
                                 break;
                         }
@@ -166,31 +166,73 @@ void AddNewCustomer()
 }
 
 void AddItems()
-{
-
+{ 
+    bool wantedItem = false;
+    int inputItem = 0;
     Console.WriteLine("---Add items---");
     products.ForEach(item => Console.WriteLine(item));
-    Console.WriteLine();
-
-    Console.Write("Choose which item: ");
-    var inputItem = int.Parse(Console.ReadLine());
-    Console.Write("Choose how many: ");
-
-    var inputHowMany = int.Parse(Console.ReadLine());
-
-    foreach (var item in products.Where(item => item.Id == inputItem))
+    
+    while (!wantedItem)
     {
-
-        for (int i = 0; i < inputHowMany; i++)
+        Console.Write("Choose which item: ");
+        wantedItem = int.TryParse(Console.ReadLine(), out inputItem);
+        if (!products.Any(p => p.Id == inputItem))
         {
-            loggedInCustomer.Cart.Add(item);
+            Console.WriteLine("Wrong ID, try again.");
+            Thread.Sleep(1000);
+            AddItems();
+        }
+        else
+        {
+            wantedItem = false;
+
         }
 
-        Console.WriteLine();
+        int inputHowMany = 0;
+        while (!wantedItem)
+        {
+            Console.Write("Choose how many: ");
+            wantedItem = int.TryParse(Console.ReadLine(), out inputHowMany);
+            if (!wantedItem)
+                Console.WriteLine("Enter an Integer!");
+        }
+
+        foreach (var item in products.Where(item => item.Id == inputItem))
+        {
+
+            for (int i = 0; i < inputHowMany; i++)
+            {
+                loggedInCustomer.Cart.Add(item);
+            }
+
+            Console.WriteLine();
+        }
     }
 
-}
 
+    //Console.WriteLine("---Add items---");
+    //products.ForEach(item => Console.WriteLine(item));
+    //Console.WriteLine();
+
+    //Console.Write("Choose which item: ");
+    //var inputItem = int.Parse(Console.ReadLine());
+    //Console.Write("Choose how many: ");
+
+    //var inputHowMany = int.Parse(Console.ReadLine());
+
+    //foreach (var item in products.Where(item => item.Id == inputItem))
+    //{
+
+    //    for (int i = 0; i < inputHowMany; i++)
+    //    {
+    //        loggedInCustomer.Cart.Add(item);
+    //    }
+
+    //    Console.WriteLine();
+    //}
+
+
+}
 
 void GoToCart()
 {
