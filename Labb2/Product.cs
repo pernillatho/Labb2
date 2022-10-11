@@ -8,6 +8,6 @@ public class Product
 
     public override string ToString()
     {
-        return $"[{Id}] {Name} {Price}";
+        return $"[{Id}] {Name} | {Price} SEK/pcs";
     }
 }

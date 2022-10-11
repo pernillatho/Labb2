@@ -36,9 +36,8 @@ public class Customer
         {
             totalPrice += item.Price;
         }
-
-        Console.WriteLine("Total price for your shopping cart: " + totalPrice + " SEK.");
         Console.WriteLine();
+        Console.WriteLine("Total price for your shopping cart: " + totalPrice + " SEK.");
 
     }
     public override string ToString()

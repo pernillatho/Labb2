@@ -1,5 +1,7 @@
-﻿using Labb2;
+﻿using System.ComponentModel.Design;
+using Labb2;
 using System.Xml.Linq;
+using System.Runtime.InteropServices;
 
 Customer? loggedInCustomer = null;
 
@@ -9,10 +11,10 @@ _customers.Add(new Customer("Fnatte", "321"));
 _customers.Add(new Customer("Tjatte", "312"));
 
 List<Product> products = new List<Product>();
-products.Add(new Product() { Id = 1, Name = "Olives", Price = 12.5 });
-products.Add(new Product() { Id = 2, Name = "Artichoke", Price = 20.5 });
-products.Add(new Product() { Id = 3, Name = "Sun-dried tomatoes", Price = 29.5 });
-products.Add(new Product() { Id = 4, Name = "Truffle", Price = 29.5 });
+products.Add(new Product() { Id = 1, Name = "Olives", Price = 20.5 });
+products.Add(new Product() { Id = 2, Name = "Artichoke", Price = 19.5 });
+products.Add(new Product() { Id = 3, Name = "Sun-dried tomatoes", Price = 26.5 });
+products.Add(new Product() { Id = 4, Name = "Truffle", Price = 27.5 });
 products.Add(new Product() { Id = 5, Name = "Pistachios", Price = 29.5 });
 
 bool runProgram = true;
@@ -166,33 +168,19 @@ void AddNewCustomer()
 }
 
 void AddItems()
-{ 
-    bool wantedItem = false;
-    int inputItem = 0;
-    Console.WriteLine("---Add items---");
-    products.ForEach(item => Console.WriteLine(item));
-    
-    while (!wantedItem)
+{
+    try
     {
-        Console.Write("Choose which item: ");
-        wantedItem = int.TryParse(Console.ReadLine(), out inputItem);
-        if (!products.Any(p => p.Id == inputItem))
-        {
-            Console.WriteLine("Wrong ID, try again.");
-            Thread.Sleep(1000);
-            AddItems();
-        }
-      
-        wantedItem = false;
-        int inputHowMany = 0;
-        Console.Write("Choose how many: ");
-        while (!wantedItem)
-        {
-            wantedItem = int.TryParse(Console.ReadLine(), out inputHowMany);
-            if (!wantedItem)
-                Console.WriteLine("Enter an Integer!");
-        }
+        Console.WriteLine("---Add items---");
+        products.ForEach(item => Console.WriteLine(item));
+        Console.WriteLine();
 
+        Console.Write("Choose which item: ");
+        var inputItem = int.Parse(Console.ReadLine());
+        Console.Write("Choose how many: ");
+
+        var inputHowMany = int.Parse(Console.ReadLine());
+        Thread.Sleep(1000);
         foreach (var item in products.Where(item => item.Id == inputItem))
         {
 
@@ -204,7 +192,12 @@ void AddItems()
             Console.WriteLine();
         }
     }
-
+    catch
+    {
+        Console.WriteLine("Try again! Something went wrong!");
+        Thread.Sleep(2000);
+    }
+    Console.Clear();
 }
 
 void GoToCart()
@@ -218,17 +211,30 @@ void GoToCart()
         var number = loggedInCustomer.Cart.Count(p => p == item);
         var productPrice = number * item.Price;
 
-        Console.WriteLine($"{item} SEK/st. Quantity: {number}. Total price: {productPrice} SEK.");
+        Console.WriteLine($"{item} | Quantity: {number} pcs | Total price: {productPrice} SEK");
     }
-
-    Console.WriteLine();
+    
     loggedInCustomer.TotalPrice();
+    Console.WriteLine("Press any key, to go back!");
+    Console.ReadKey();
+    Console.Clear();
 }
 
 void Checkout ()
 {
     Console.WriteLine("---Check out---");
+    var productType = loggedInCustomer.Cart.Select(p => p).Distinct().ToList();
+
+    foreach (var item in productType)
+    {
+        var number = loggedInCustomer.Cart.Count(p => p == item);
+        var productPrice = number * item.Price;
+
+        Console.WriteLine($" {item} | Quantity: {number} pcs | Total price: {productPrice} SEK");
+    }
+    
     loggedInCustomer.TotalPrice();
+
     Console.WriteLine("[1] - Pay\n[2] - Menu");
 
     var inputCheckOut = Console.ReadLine();
