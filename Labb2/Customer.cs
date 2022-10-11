@@ -1,4 +1,6 @@
-﻿public class Customer
+﻿namespace Labb2;
+
+public class Customer
 {
     public string Name { get; private set; }
     private string Password { get; set; }
